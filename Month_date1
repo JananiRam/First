@@ -1,0 +1,29 @@
+#!/bin/bash
+touch Entry.log
+var=( jan feb mar apr may jun jul aug sep oct nov dec )
+for file in `ls  files/`
+do
+	filename=`basename -s .log $file` # getting file name
+	month=`echo $filename | tail -c 6 | head -c 2`
+	month=`expr $month - 1`
+	if [ ! -d ${var[$month]} ]
+	then
+		mkdir ${var[$month]}
+		
+	fi
+	cat files/$file > ${var[$month]}/$file
+done
+sum=0
+for i in `seq 0 11`
+do
+	count=`ls -l  ${var[$i]}/*.* | wc -l`
+ 	content=`ls  -l ${var[$i]}/*.*`
+		
+	echo  -e "\nIn  ${var[$i]} Number of Files="$count
+	echo -e  "\n Directory : ${var[$i]} \n \n$content\n">> Entry.log
+	
+
+	
+done
+
+
